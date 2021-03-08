@@ -2,9 +2,15 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageId>DotnetActionsToolkit</PackageId>
     <Authors>GitHubRangers</Authors>
-    <Company></Company>
+    <Company>GitHubRangers</Company>
+    <PackageTags>GitHub;Actions;</PackageTags>
+    <PackageProjectUrl>https://github.com/GitHubRangers/dotnet-actions-toolkit</PackageProjectUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/GitHubRangers/dotnet-actions-toolkit</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>

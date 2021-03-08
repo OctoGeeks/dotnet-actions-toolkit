@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 
-namespace GitHubRangers.DotnetActionsToolkit
+namespace DotnetActionsToolkit
 {
     public static class ToolCache
     {

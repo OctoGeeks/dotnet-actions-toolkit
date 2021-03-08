@@ -2,7 +2,7 @@
 using System.IO;
 using System.Text;
 
-namespace GitHubRangers.DotnetActionsToolkit
+namespace DotnetActionsToolkit
 {
     internal class FileCommand
     {

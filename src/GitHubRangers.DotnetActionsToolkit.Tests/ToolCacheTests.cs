@@ -1,9 +1,8 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.IO;
-using System.Net;
 
-namespace GitHubRangers.DotnetActionsToolkit.Tests
+namespace DotnetActionsToolkit.Tests
 {
     [TestClass]
     public class ToolCacheTests

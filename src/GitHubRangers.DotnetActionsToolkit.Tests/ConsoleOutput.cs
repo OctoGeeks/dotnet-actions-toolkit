@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
 
-namespace GitHubRangers.DotnetActionsToolkit.Tests
+namespace DotnetActionsToolkit.Tests
 {
     public class ConsoleOutput : IDisposable
     {

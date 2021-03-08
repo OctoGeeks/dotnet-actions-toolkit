@@ -1,4 +1,4 @@
-﻿namespace GitHubRangers.DotnetActionsToolkit
+﻿namespace DotnetActionsToolkit
 {
     internal static class Utils
     {

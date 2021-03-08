@@ -2,7 +2,7 @@
 using System.IO;
 using System.Reflection;
 
-namespace GitHubRangers.ActionsToolkit.Tests
+namespace GitHubRangers.DotnetActionsToolkit.Tests
 {
     public static class TestingUtils
     {

@@ -3,7 +3,7 @@ using System;
 using System.IO;
 using System.Net;
 
-namespace GitHubRangers.ActionsToolkit.Tests
+namespace GitHubRangers.DotnetActionsToolkit.Tests
 {
     [TestClass]
     public class ToolCacheTests

@@ -6,7 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace GitHubRangers.ActionsToolkit.Tests
+namespace GitHubRangers.DotnetActionsToolkit.Tests
 {
     [TestClass]
     public class CommandTests
@@ -118,49 +118,61 @@ namespace GitHubRangers.ActionsToolkit.Tests
 
         private void IssueCommand<T>(string command, Dictionary<string, string> properties, T message)
         {
-            var method = typeof(Core).GetMethods(BindingFlags.NonPublic | BindingFlags.Static)
-                                     .Single(m => m.Name == "IssueCommand" && 
-                                                  m.IsGenericMethod && 
-                                                  m.GetParameters().Length == 3 && 
-                                                  m.GetParameters()[1].ParameterType == typeof(Dictionary<string, string>));
+            var commandType = typeof(Core).Assembly.GetTypes().Single(t => t.Name == "Command");
+            var commandObj = Activator.CreateInstance(commandType);
+
+            var method = commandType.GetMethods(BindingFlags.NonPublic | BindingFlags.Instance)
+                                    .Single(m => m.Name == "IssueCommand" && 
+                                                 m.IsGenericMethod && 
+                                                 m.GetParameters().Length == 3 && 
+                                                 m.GetParameters()[1].ParameterType == typeof(Dictionary<string, string>));
 
             var genericMethod = method.MakeGenericMethod(typeof(T));
 
-            genericMethod.Invoke(null, new object[] { command, properties, message });
+            genericMethod.Invoke(commandObj, new object[] { command, properties, message });
         }
 
         private void IssueCommand<T>(string command, KeyValuePair<string, string> properties, T message)
         {
-            var method = typeof(Core).GetMethods(BindingFlags.NonPublic | BindingFlags.Static)
-                                     .Single(m => m.Name == "IssueCommand" &&
-                                                  m.IsGenericMethod &&
-                                                  m.GetParameters().Length == 3 &&
-                                                  m.GetParameters()[1].ParameterType == typeof(KeyValuePair<string, string>));
+            var commandType = typeof(Core).Assembly.GetTypes().Single(t => t.Name == "Command");
+            var commandObj = Activator.CreateInstance(commandType);
+
+            var method = commandType.GetMethods(BindingFlags.NonPublic | BindingFlags.Instance)
+                                    .Single(m => m.Name == "IssueCommand" &&
+                                                 m.IsGenericMethod &&
+                                                 m.GetParameters().Length == 3 &&
+                                                 m.GetParameters()[1].ParameterType == typeof(KeyValuePair<string, string>));
 
             var genericMethod = method.MakeGenericMethod(typeof(T));
 
-            genericMethod.Invoke(null, new object[] { command, properties, message });
+            genericMethod.Invoke(commandObj, new object[] { command, properties, message });
         }
 
         private void IssueCommand<T>(string command, T message)
         {
-            var method = typeof(Core).GetMethods(BindingFlags.NonPublic | BindingFlags.Static)
-                                     .Single(m => m.Name == "IssueCommand" &&
-                                                  m.IsGenericMethod &&
-                                                  m.GetParameters().Length == 2);
+            var commandType = typeof(Core).Assembly.GetTypes().Single(t => t.Name == "Command");
+            var commandObj = Activator.CreateInstance(commandType);
+
+            var method = commandType.GetMethods(BindingFlags.NonPublic | BindingFlags.Instance)
+                                    .Single(m => m.Name == "IssueCommand" &&
+                                                 m.IsGenericMethod &&
+                                                 m.GetParameters().Length == 2);
 
             var genericMethod = method.MakeGenericMethod(typeof(T));
 
-            genericMethod.Invoke(null, new object[] { command, message });
+            genericMethod.Invoke(commandObj, new object[] { command, message });
         }
 
         private void IssueCommand(string command)
         {
-            var method = typeof(Core).GetMethods(BindingFlags.NonPublic | BindingFlags.Static)
-                                     .Single(m => m.Name == "IssueCommand" &&
-                                                  m.GetParameters().Length == 1);
+            var commandType = typeof(Core).Assembly.GetTypes().Single(t => t.Name == "Command");
+            var commandObj = Activator.CreateInstance(commandType);
 
-            method.Invoke(null, new object[] { command });
+            var method = commandType.GetMethods(BindingFlags.NonPublic | BindingFlags.Instance)
+                                    .Single(m => m.Name == "IssueCommand" &&
+                                                 m.GetParameters().Length == 1);
+
+            method.Invoke(commandObj, new object[] { command });
         }
     }
 }

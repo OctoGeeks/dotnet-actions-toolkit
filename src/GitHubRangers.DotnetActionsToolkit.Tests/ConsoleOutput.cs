@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace GitHubRangers.ActionsToolkit.Tests
+namespace GitHubRangers.DotnetActionsToolkit.Tests
 {
     public class ConsoleOutput : IDisposable
     {

@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
 
-namespace GitHubRangers.ActionsToolkit
+namespace GitHubRangers.DotnetActionsToolkit
 {
     public static class ToolCache
     {
@@ -16,6 +15,8 @@ namespace GitHubRangers.ActionsToolkit
 
         public static string CacheDir(string sourceDir, string tool, string version, string arch)
         {
+            var core = new Core();
+
             if (SemVer.Version.TryParse(version, out var semver))
             {
                 version = semver.Clean();
@@ -26,8 +27,8 @@ namespace GitHubRangers.ActionsToolkit
                 arch = RuntimeInformation.OSArchitecture.ToString();
             }
 
-            Core.Debug($"Caching tool {tool} {version} {arch}");
-            Core.Debug($"source dir: {sourceDir}");
+            core.Debug($"Caching tool {tool} {version} {arch}");
+            core.Debug($"source dir: {sourceDir}");
 
             if (!Directory.Exists(sourceDir))
             {
@@ -48,6 +49,8 @@ namespace GitHubRangers.ActionsToolkit
 
         public static string CacheFile(string sourceFile, string targetFile, string tool, string version, string arch)
         {
+            var core = new Core();
+
             if (SemVer.Version.TryParse(version, out var semver))
             {
                 version = semver.Clean();
@@ -58,8 +61,8 @@ namespace GitHubRangers.ActionsToolkit
                 arch = RuntimeInformation.OSArchitecture.ToString();
             }
 
-            Core.Debug($"Caching tool {tool} {version} {arch}");
-            Core.Debug($"source file: {sourceFile}");
+            core.Debug($"Caching tool {tool} {version} {arch}");
+            core.Debug($"source file: {sourceFile}");
 
             if (!File.Exists(sourceFile))
             {
@@ -68,7 +71,7 @@ namespace GitHubRangers.ActionsToolkit
 
             var destFolder = CreateToolPath(tool, version, arch);
             var destPath = Path.Combine(destFolder, targetFile);
-            Core.Debug($"destination file {destPath}");
+            core.Debug($"destination file {destPath}");
             File.Copy(sourceFile, destPath);
 
             CompleteToolPath(tool, version, arch);
@@ -83,6 +86,8 @@ namespace GitHubRangers.ActionsToolkit
 
         public static string Find(string toolName, string versionSpec, string arch)
         {
+            var core = new Core();
+
             if (string.IsNullOrWhiteSpace(toolName))
             {
                 throw new ArgumentException("toolName parameter is required", nameof(toolName));
@@ -113,15 +118,15 @@ namespace GitHubRangers.ActionsToolkit
                 }
 
                 var cachePath = Path.Combine(GetCacheDirectory(), toolName, versionSpec, arch);
-                Core.Debug($"checking cache: {cachePath}");
+                core.Debug($"checking cache: {cachePath}");
 
                 if (Directory.Exists(cachePath) && File.Exists($"{cachePath}.complete"))
                 {
-                    Core.Debug($"Found tool in cache {toolName} {versionSpec} {arch}");
+                    core.Debug($"Found tool in cache {toolName} {versionSpec} {arch}");
                     return cachePath;
                 }
 
-                Core.Debug("not found");
+                core.Debug("not found");
             }
 
             return null;
@@ -164,9 +169,10 @@ namespace GitHubRangers.ActionsToolkit
 
         private static string CreateToolPath(string tool, string version, string arch)
         {
+            var core = new Core();
             var folderPath = Path.Combine(GetCacheDirectory(), tool, version, arch);
 
-            Core.Debug($"destination {folderPath}");
+            core.Debug($"destination {folderPath}");
             var markerPath = $"{folderPath}.complete";
             
             if (Directory.Exists(folderPath))
@@ -189,33 +195,36 @@ namespace GitHubRangers.ActionsToolkit
             var folderPath = Path.Combine(GetCacheDirectory(), tool, version, arch);
             var markerPath = $"{folderPath}.complete";
             File.Create(markerPath);
-            Core.Debug("finished caching tool");
+            new Core().Debug("finished caching tool");
         }
 
         private static bool IsExplicitVersion(string versionSpec)
         {
+            var core = new Core();
             var valid = SemVer.Version.TryParse(versionSpec, out var _);
 
-            Core.Debug($"isExplicit: {versionSpec}");
-            Core.Debug($"explicit? {valid}");
+            core.Debug($"isExplicit: {versionSpec}");
+            core.Debug($"explicit? {valid}");
 
             return valid;
         }
 
         private static string EvaluateVersions(IEnumerable<string> versions, string versionSpec)
         {
-            Core.Debug($"evaluating {versions.Count()} versions");
+            var core = new Core();
+
+            core.Debug($"evaluating {versions.Count()} versions");
 
             var version = SemVer.Range.MaxSatisfying(versionSpec, versions);
 
             if (!string.IsNullOrWhiteSpace(version))
             {
-                Core.Debug($"matched: {version}");
+                core.Debug($"matched: {version}");
                 
                 return version;
             }
 
-            Core.Debug("match not found");
+            core.Debug("match not found");
             
             return null;
         }

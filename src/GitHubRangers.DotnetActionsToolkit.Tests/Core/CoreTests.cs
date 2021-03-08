@@ -5,7 +5,7 @@ using System.IO;
 using System.Reflection;
 using System.Text;
 
-namespace GitHubRangers.ActionsToolkit.Tests
+namespace GitHubRangers.DotnetActionsToolkit.Tests
 {
     [TestClass]
     public class CoreTests
@@ -44,7 +44,7 @@ namespace GitHubRangers.ActionsToolkit.Tests
         {
             using (var consoleOutput = new ConsoleOutput())
             {
-                Core.ExportVariable("my var", "var val");
+                new Core().ExportVariable("my var", "var val");
 
                 Assert.AreEqual($"::set-env name=my var::var val{Environment.NewLine}", consoleOutput.GetOuput());
             }
@@ -55,7 +55,7 @@ namespace GitHubRangers.ActionsToolkit.Tests
         {
             using (var consoleOutput = new ConsoleOutput())
             {
-                Core.ExportVariable("special char var \r\n,:", "special val");
+                new Core().ExportVariable("special char var \r\n,:", "special val");
 
                 Assert.AreEqual("special val", Environment.GetEnvironmentVariable("special char var \r\n,:"));
                 Assert.AreEqual($"::set-env name=special char var %0D%0A%2C%3A::special val{Environment.NewLine}", consoleOutput.GetOuput());
@@ -67,7 +67,7 @@ namespace GitHubRangers.ActionsToolkit.Tests
         {
             using (var consoleOutput = new ConsoleOutput())
             {
-                Core.ExportVariable("my var2", "var val\r\n");
+                new Core().ExportVariable("my var2", "var val\r\n");
 
                 Assert.AreEqual("var val\r\n", Environment.GetEnvironmentVariable("my var2"));
                 Assert.AreEqual($"::set-env name=my var2::var val%0D%0A{Environment.NewLine}", consoleOutput.GetOuput());
@@ -79,7 +79,7 @@ namespace GitHubRangers.ActionsToolkit.Tests
         {
             using (var consoleOutput = new ConsoleOutput())
             {
-                Core.ExportVariable("my var", true);
+                new Core().ExportVariable("my var", true);
 
                 Assert.AreEqual($"::set-env name=my var::True{Environment.NewLine}", consoleOutput.GetOuput());
             }
@@ -90,7 +90,7 @@ namespace GitHubRangers.ActionsToolkit.Tests
         {
             using (var consoleOutput = new ConsoleOutput())
             {
-                Core.ExportVariable("my var", 5);
+                new Core().ExportVariable("my var", 5);
 
                 Assert.AreEqual($"::set-env name=my var::5{Environment.NewLine}", consoleOutput.GetOuput());
             }
@@ -102,7 +102,7 @@ namespace GitHubRangers.ActionsToolkit.Tests
             var command = "ENV";
             CreateFileCommandFile(command);
 
-            Core.ExportVariable("my var", "var val");
+            new Core().ExportVariable("my var", "var val");
             VerifyFileCommand(command, $"my var<<{DELIM}{Environment.NewLine}var val{Environment.NewLine}{DELIM}{Environment.NewLine}");
         }
 
@@ -112,7 +112,7 @@ namespace GitHubRangers.ActionsToolkit.Tests
             var command = "ENV";
             CreateFileCommandFile(command);
 
-            Core.ExportVariable("my var", true);
+            new Core().ExportVariable("my var", true);
             VerifyFileCommand(command, $"my var<<{DELIM}{Environment.NewLine}True{Environment.NewLine}{DELIM}{Environment.NewLine}");
         }
 
@@ -122,7 +122,7 @@ namespace GitHubRangers.ActionsToolkit.Tests
             var command = "ENV";
             CreateFileCommandFile(command);
 
-            Core.ExportVariable("my var", 5);
+            new Core().ExportVariable("my var", 5);
             VerifyFileCommand(command, $"my var<<{DELIM}{Environment.NewLine}5{Environment.NewLine}{DELIM}{Environment.NewLine}");
         }
 
@@ -131,7 +131,7 @@ namespace GitHubRangers.ActionsToolkit.Tests
         {
             using (var consoleOutput = new ConsoleOutput())
             {
-                Core.SetSecret("secret val");
+                new Core().SetSecret("secret val");
 
                 Assert.AreEqual($"::add-mask::secret val{Environment.NewLine}", consoleOutput.GetOuput());
             }
@@ -142,7 +142,7 @@ namespace GitHubRangers.ActionsToolkit.Tests
         {
             var command = "PATH";
             CreateFileCommandFile(command);
-            Core.AddPath("myPath");
+            new Core().AddPath("myPath");
 
             Assert.AreEqual($"myPath{Path.PathSeparator}path1{Path.PathSeparator}path2", Environment.GetEnvironmentVariable("PATH"));
             VerifyFileCommand(command, $"myPath{Environment.NewLine}");
@@ -153,7 +153,7 @@ namespace GitHubRangers.ActionsToolkit.Tests
         {
             using (var consoleOutput = new ConsoleOutput())
             {
-                Core.AddPath("myPath");
+                new Core().AddPath("myPath");
 
                 Assert.AreEqual($"myPath{Path.PathSeparator}path1{Path.PathSeparator}path2", Environment.GetEnvironmentVariable("PATH"));
                 Assert.AreEqual($"::add-path::myPath{Environment.NewLine}", consoleOutput.GetOuput());
@@ -163,44 +163,44 @@ namespace GitHubRangers.ActionsToolkit.Tests
         [TestMethod]
         public void GetInputGetsNonRequiredInput()
         {
-            Assert.AreEqual("val", Core.GetInput("my input"));
+            Assert.AreEqual("val", new Core().GetInput("my input"));
         }
 
         [TestMethod]
         public void GetInputGetsRequiredInput()
         {
-            Assert.AreEqual("val", Core.GetInput("my input", true));
+            Assert.AreEqual("val", new Core().GetInput("my input", true));
         }
 
         [TestMethod]
         [ExpectedException(typeof(Exception))]
         public void GetInputThrowsOnMissingRequiredInput()
         {
-            Core.GetInput("missing", true);
+            new Core().GetInput("missing", true);
         }
 
         [TestMethod]
         public void GetInputDoesNotThrowOnMissingNonRequiredInput()
         {
-            Assert.AreEqual(null, Core.GetInput("missing", false));
+            Assert.AreEqual(null, new Core().GetInput("missing", false));
         }
 
         [TestMethod]
         public void GetInputIsCaseInsensitive()
         {
-            Assert.AreEqual("val", Core.GetInput("My InPuT"));
+            Assert.AreEqual("val", new Core().GetInput("My InPuT"));
         }
 
         [TestMethod]
         public void GetInputHandlesSpecialCharacters()
         {
-            Assert.AreEqual("\'\t\"\\ response", Core.GetInput("special chars_\'\t\"\\"));
+            Assert.AreEqual("\'\t\"\\ response", new Core().GetInput("special chars_\'\t\"\\"));
         }
 
         [TestMethod]
         public void GetInputHandlesMultipleSpaces()
         {
-            Assert.AreEqual("I have multiple spaces", Core.GetInput("multiple spaces variable"));
+            Assert.AreEqual("I have multiple spaces", new Core().GetInput("multiple spaces variable"));
         }
 
         [TestMethod]
@@ -208,7 +208,7 @@ namespace GitHubRangers.ActionsToolkit.Tests
         {
             using (var consoleOutput = new ConsoleOutput())
             {
-                Core.SetOutput("some output", "some value");
+                new Core().SetOutput("some output", "some value");
                 Assert.AreEqual($"::set-output name=some output::some value{Environment.NewLine}", consoleOutput.GetOuput());
             }
         }
@@ -218,7 +218,7 @@ namespace GitHubRangers.ActionsToolkit.Tests
         {
             using (var consoleOutput = new ConsoleOutput())
             {
-                Core.SetOutput("some output", false);
+                new Core().SetOutput("some output", false);
                 Assert.AreEqual($"::set-output name=some output::False{Environment.NewLine}", consoleOutput.GetOuput());
             }
         }
@@ -228,7 +228,7 @@ namespace GitHubRangers.ActionsToolkit.Tests
         {
             using (var consoleOutput = new ConsoleOutput())
             {
-                Core.SetOutput("some output", 1.01);
+                new Core().SetOutput("some output", 1.01);
                 Assert.AreEqual($"::set-output name=some output::1.01{Environment.NewLine}", consoleOutput.GetOuput());
             }
         }
@@ -238,7 +238,7 @@ namespace GitHubRangers.ActionsToolkit.Tests
         {
             using (var consoleOutput = new ConsoleOutput())
             {
-                Core.SetFailed("Failure message");
+                new Core().SetFailed("Failure message");
                 Assert.AreEqual(1, Environment.ExitCode);
                 Assert.AreEqual($"::error::Failure message{Environment.NewLine}", consoleOutput.GetOuput());
             }
@@ -249,7 +249,7 @@ namespace GitHubRangers.ActionsToolkit.Tests
         {
             using (var consoleOutput = new ConsoleOutput())
             {
-                Core.SetFailed("Failure \r\n\nmessage\r");
+                new Core().SetFailed("Failure \r\n\nmessage\r");
                 Assert.AreEqual(1, Environment.ExitCode);
                 Assert.AreEqual($"::error::Failure %0D%0A%0Amessage%0D{Environment.NewLine}", consoleOutput.GetOuput());
             }
@@ -261,7 +261,7 @@ namespace GitHubRangers.ActionsToolkit.Tests
             using (var consoleOutput = new ConsoleOutput())
             {
                 var message = "this is my error message";
-                Core.SetFailed(new Exception(message));
+                new Core().SetFailed(new Exception(message));
                 Assert.AreEqual(1, Environment.ExitCode);
                 Assert.AreEqual($"::error::System.Exception: {message}{Environment.NewLine}", consoleOutput.GetOuput());
             }
@@ -272,7 +272,7 @@ namespace GitHubRangers.ActionsToolkit.Tests
         {
             using (var consoleOutput = new ConsoleOutput())
             {
-                Core.Error("Error message");
+                new Core().Error("Error message");
                 Assert.AreEqual($"::error::Error message{Environment.NewLine}", consoleOutput.GetOuput());
             }
         }
@@ -282,7 +282,7 @@ namespace GitHubRangers.ActionsToolkit.Tests
         {
             using (var consoleOutput = new ConsoleOutput())
             {
-                Core.Error("Error message\r\n\n");
+                new Core().Error("Error message\r\n\n");
                 Assert.AreEqual($"::error::Error message%0D%0A%0A{Environment.NewLine}", consoleOutput.GetOuput());
             }
         }
@@ -293,7 +293,7 @@ namespace GitHubRangers.ActionsToolkit.Tests
             using (var consoleOutput = new ConsoleOutput())
             {
                 var message = "this is my error message";
-                Core.Error(new Exception(message));
+                new Core().Error(new Exception(message));
                 Assert.AreEqual($"::error::System.Exception: {message}{Environment.NewLine}", consoleOutput.GetOuput());
             }
         }
@@ -303,7 +303,7 @@ namespace GitHubRangers.ActionsToolkit.Tests
         {
             using (var consoleOutput = new ConsoleOutput())
             {
-                Core.Warning("Warning");
+                new Core().Warning("Warning");
                 Assert.AreEqual($"::warning::Warning{Environment.NewLine}", consoleOutput.GetOuput());
             }
         }
@@ -313,7 +313,7 @@ namespace GitHubRangers.ActionsToolkit.Tests
         {
             using (var consoleOutput = new ConsoleOutput())
             {
-                Core.Warning("\r\nwarning\n");
+                new Core().Warning("\r\nwarning\n");
                 Assert.AreEqual($"::warning::%0D%0Awarning%0A{Environment.NewLine}", consoleOutput.GetOuput());
             }
         }
@@ -324,7 +324,7 @@ namespace GitHubRangers.ActionsToolkit.Tests
             using (var consoleOutput = new ConsoleOutput())
             {
                 var message = "this is my error message";
-                Core.Warning(new Exception(message));
+                new Core().Warning(new Exception(message));
                 Assert.AreEqual($"::warning::System.Exception: {message}{Environment.NewLine}", consoleOutput.GetOuput());
             }
         }
@@ -334,7 +334,7 @@ namespace GitHubRangers.ActionsToolkit.Tests
         {
             using (var consoleOutput = new ConsoleOutput())
             {
-                Core.StartGroup("my-group");
+                new Core().StartGroup("my-group");
                 Assert.AreEqual($"::group::my-group{Environment.NewLine}", consoleOutput.GetOuput());
             }
         }
@@ -344,7 +344,7 @@ namespace GitHubRangers.ActionsToolkit.Tests
         {
             using (var consoleOutput = new ConsoleOutput())
             {
-                Core.EndGroup();
+                new Core().EndGroup();
                 Assert.AreEqual($"::endgroup::{Environment.NewLine}", consoleOutput.GetOuput());
             }
         }
@@ -354,7 +354,7 @@ namespace GitHubRangers.ActionsToolkit.Tests
         {
             using (var consoleOutput = new ConsoleOutput())
             {
-                var result = Core.Group("mygroup", () =>
+                var result = new Core().Group("mygroup", () =>
                 {
                     Console.WriteLine("in my group");
                     return true;
@@ -370,7 +370,7 @@ namespace GitHubRangers.ActionsToolkit.Tests
         {
             using (var consoleOutput = new ConsoleOutput())
             {
-                Core.Debug("Debug");
+                new Core().Debug("Debug");
                 Assert.AreEqual($"::debug::Debug{Environment.NewLine}", consoleOutput.GetOuput());
             }
         }
@@ -380,7 +380,7 @@ namespace GitHubRangers.ActionsToolkit.Tests
         {
             using (var consoleOutput = new ConsoleOutput())
             {
-                Core.Debug("\r\ndebug\n");
+                new Core().Debug("\r\ndebug\n");
                 Assert.AreEqual($"::debug::%0D%0Adebug%0A{Environment.NewLine}", consoleOutput.GetOuput());
             }
         }
@@ -390,7 +390,7 @@ namespace GitHubRangers.ActionsToolkit.Tests
         {
             using (var consoleOutput = new ConsoleOutput())
             {
-                Core.SaveState("state_1", "some value");
+                new Core().SaveState("state_1", "some value");
                 Assert.AreEqual($"::save-state name=state_1::some value{Environment.NewLine}", consoleOutput.GetOuput());
             }
         }
@@ -400,7 +400,7 @@ namespace GitHubRangers.ActionsToolkit.Tests
         {
             using (var consoleOutput = new ConsoleOutput())
             {
-                Core.SaveState("state_1", 1);
+                new Core().SaveState("state_1", 1);
                 Assert.AreEqual($"::save-state name=state_1::1{Environment.NewLine}", consoleOutput.GetOuput());
             }
         }
@@ -410,7 +410,7 @@ namespace GitHubRangers.ActionsToolkit.Tests
         {
             using (var consoleOutput = new ConsoleOutput())
             {
-                Core.SaveState("state_1", true);
+                new Core().SaveState("state_1", true);
                 Assert.AreEqual($"::save-state name=state_1::True{Environment.NewLine}", consoleOutput.GetOuput());
             }
         }
@@ -418,7 +418,7 @@ namespace GitHubRangers.ActionsToolkit.Tests
         [TestMethod]
         public void GetStateGetsWrapperActionState()
         {
-            Assert.AreEqual("state_val", Core.GetState("TEST_1"));
+            Assert.AreEqual("state_val", new Core().GetState("TEST_1"));
         }
 
         [TestMethod]
@@ -429,10 +429,10 @@ namespace GitHubRangers.ActionsToolkit.Tests
             try
             {
                 Environment.SetEnvironmentVariable("RUNNER_DEBUG", null);
-                Assert.IsFalse(Core.IsDebug());
+                Assert.IsFalse(new Core().IsDebug());
 
                 Environment.SetEnvironmentVariable("RUNNER_DEBUG", "1");
-                Assert.IsTrue(Core.IsDebug());
+                Assert.IsTrue(new Core().IsDebug());
             }
             finally
             {
@@ -445,7 +445,7 @@ namespace GitHubRangers.ActionsToolkit.Tests
         {
             using (var consoleOutput = new ConsoleOutput())
             {
-                Core.SetCommandEcho(true);
+                new Core().SetCommandEcho(true);
                 Assert.AreEqual($"::echo::on{Environment.NewLine}", consoleOutput.GetOuput());
             }
         }
@@ -455,7 +455,7 @@ namespace GitHubRangers.ActionsToolkit.Tests
         {
             using (var consoleOutput = new ConsoleOutput())
             {
-                Core.SetCommandEcho(false);
+                new Core().SetCommandEcho(false);
                 Assert.AreEqual($"::echo::off{Environment.NewLine}", consoleOutput.GetOuput());
             }
         }

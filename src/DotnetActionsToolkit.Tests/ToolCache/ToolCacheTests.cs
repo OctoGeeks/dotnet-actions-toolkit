@@ -9,6 +9,7 @@ namespace DotnetActionsToolkit.Tests
     {
         private static readonly string CACHE_PATH = Path.Combine(TestingUtils.GetAssemblyDirectory(), "CACHE");
         private static readonly string TEMP_PATH = Path.Combine(TestingUtils.GetAssemblyDirectory(), "TEMP");
+        private readonly ToolCache _toolCache = new ToolCache();
 
         [TestInitialize]
         public void TestInitialize()
@@ -43,9 +44,9 @@ namespace DotnetActionsToolkit.Tests
 
             Assert.IsTrue(File.Exists(downPath));
 
-            ToolCache.CacheFile(downPath, "foo", "foo", "1.1.0");
+            _toolCache.CacheFile(downPath, "foo", "foo", "1.1.0");
 
-            var toolPath = ToolCache.Find("foo", "1.1.0");
+            var toolPath = _toolCache.Find("foo", "1.1.0");
 
             Assert.IsTrue(Directory.Exists(toolPath));
             Assert.IsTrue(File.Exists($"{toolPath}.complete"));

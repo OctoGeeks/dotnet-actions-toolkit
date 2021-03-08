@@ -2,6 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <PackageId>DotnetActionsToolkit</PackageId>
+    <Authors>GitHubRangers</Authors>
+    <Company></Company>
   </PropertyGroup>
 
   <ItemGroup>

@@ -6,17 +6,17 @@ using System.Runtime.InteropServices;
 
 namespace DotnetActionsToolkit
 {
-    public static class ToolCache
+    public class ToolCache
     {
-        public static string CacheDir(string sourceDir, string tool, string version)
+        private readonly Core _core = new Core();
+
+        public string CacheDir(string sourceDir, string tool, string version)
         {
             return CacheDir(sourceDir, tool, version, null);
         }
 
-        public static string CacheDir(string sourceDir, string tool, string version, string arch)
+        public string CacheDir(string sourceDir, string tool, string version, string arch)
         {
-            var core = new Core();
-
             if (SemVer.Version.TryParse(version, out var semver))
             {
                 version = semver.Clean();
@@ -27,8 +27,8 @@ namespace DotnetActionsToolkit
                 arch = RuntimeInformation.OSArchitecture.ToString();
             }
 
-            core.Debug($"Caching tool {tool} {version} {arch}");
-            core.Debug($"source dir: {sourceDir}");
+            _core.Debug($"Caching tool {tool} {version} {arch}");
+            _core.Debug($"source dir: {sourceDir}");
 
             if (!Directory.Exists(sourceDir))
             {
@@ -42,15 +42,13 @@ namespace DotnetActionsToolkit
             return destPath;
         }
 
-        public static string CacheFile(string sourceFile, string targetFile, string tool, string version)
+        public string CacheFile(string sourceFile, string targetFile, string tool, string version)
         {
             return CacheFile(sourceFile, targetFile, tool, version, null);
         }
 
-        public static string CacheFile(string sourceFile, string targetFile, string tool, string version, string arch)
+        public string CacheFile(string sourceFile, string targetFile, string tool, string version, string arch)
         {
-            var core = new Core();
-
             if (SemVer.Version.TryParse(version, out var semver))
             {
                 version = semver.Clean();
@@ -61,8 +59,8 @@ namespace DotnetActionsToolkit
                 arch = RuntimeInformation.OSArchitecture.ToString();
             }
 
-            core.Debug($"Caching tool {tool} {version} {arch}");
-            core.Debug($"source file: {sourceFile}");
+            _core.Debug($"Caching tool {tool} {version} {arch}");
+            _core.Debug($"source file: {sourceFile}");
 
             if (!File.Exists(sourceFile))
             {
@@ -71,7 +69,7 @@ namespace DotnetActionsToolkit
 
             var destFolder = CreateToolPath(tool, version, arch);
             var destPath = Path.Combine(destFolder, targetFile);
-            core.Debug($"destination file {destPath}");
+            _core.Debug($"destination file {destPath}");
             File.Copy(sourceFile, destPath);
 
             CompleteToolPath(tool, version, arch);
@@ -79,15 +77,13 @@ namespace DotnetActionsToolkit
             return destFolder;
         }
 
-        public static string Find(string toolName, string versionSpec)
+        public string Find(string toolName, string versionSpec)
         {
             return Find(toolName, versionSpec, null);
         }
 
-        public static string Find(string toolName, string versionSpec, string arch)
+        public string Find(string toolName, string versionSpec, string arch)
         {
-            var core = new Core();
-
             if (string.IsNullOrWhiteSpace(toolName))
             {
                 throw new ArgumentException("toolName parameter is required", nameof(toolName));
@@ -118,26 +114,26 @@ namespace DotnetActionsToolkit
                 }
 
                 var cachePath = Path.Combine(GetCacheDirectory(), toolName, versionSpec, arch);
-                core.Debug($"checking cache: {cachePath}");
+                _core.Debug($"checking cache: {cachePath}");
 
                 if (Directory.Exists(cachePath) && File.Exists($"{cachePath}.complete"))
                 {
-                    core.Debug($"Found tool in cache {toolName} {versionSpec} {arch}");
+                    _core.Debug($"Found tool in cache {toolName} {versionSpec} {arch}");
                     return cachePath;
                 }
 
-                core.Debug("not found");
+                _core.Debug("not found");
             }
 
             return null;
         }
 
-        public static IEnumerable<string> FindAllVersions(string toolName)
+        public IEnumerable<string> FindAllVersions(string toolName)
         {
             return FindAllVersions(toolName, null);
         }
 
-        public static IEnumerable<string> FindAllVersions(string toolName, string arch)
+        public IEnumerable<string> FindAllVersions(string toolName, string arch)
         {
             var versions = new List<string>();
 
@@ -167,12 +163,11 @@ namespace DotnetActionsToolkit
             return versions;
         }
 
-        private static string CreateToolPath(string tool, string version, string arch)
+        private string CreateToolPath(string tool, string version, string arch)
         {
-            var core = new Core();
             var folderPath = Path.Combine(GetCacheDirectory(), tool, version, arch);
 
-            core.Debug($"destination {folderPath}");
+            _core.Debug($"destination {folderPath}");
             var markerPath = $"{folderPath}.complete";
             
             if (Directory.Exists(folderPath))
@@ -190,46 +185,43 @@ namespace DotnetActionsToolkit
             return folderPath;
         }
 
-        private static void CompleteToolPath(string tool, string version, string arch)
+        private void CompleteToolPath(string tool, string version, string arch)
         {
             var folderPath = Path.Combine(GetCacheDirectory(), tool, version, arch);
             var markerPath = $"{folderPath}.complete";
             File.Create(markerPath);
-            new Core().Debug("finished caching tool");
+            _core.Debug("finished caching tool");
         }
 
-        private static bool IsExplicitVersion(string versionSpec)
+        private bool IsExplicitVersion(string versionSpec)
         {
-            var core = new Core();
             var valid = SemVer.Version.TryParse(versionSpec, out var _);
 
-            core.Debug($"isExplicit: {versionSpec}");
-            core.Debug($"explicit? {valid}");
+            _core.Debug($"isExplicit: {versionSpec}");
+            _core.Debug($"explicit? {valid}");
 
             return valid;
         }
 
-        private static string EvaluateVersions(IEnumerable<string> versions, string versionSpec)
+        private string EvaluateVersions(IEnumerable<string> versions, string versionSpec)
         {
-            var core = new Core();
-
-            core.Debug($"evaluating {versions.Count()} versions");
+            _core.Debug($"evaluating {versions.Count()} versions");
 
             var version = SemVer.Range.MaxSatisfying(versionSpec, versions);
 
             if (!string.IsNullOrWhiteSpace(version))
             {
-                core.Debug($"matched: {version}");
+                _core.Debug($"matched: {version}");
                 
                 return version;
             }
 
-            core.Debug("match not found");
+            _core.Debug("match not found");
             
             return null;
         }
 
-        private static string GetCacheDirectory()
+        private string GetCacheDirectory()
         {
             var cacheDirectory = Environment.GetEnvironmentVariable("RUNNER_TOOL_CACHE");
 
@@ -241,7 +233,7 @@ namespace DotnetActionsToolkit
             return cacheDirectory;
         }
 
-        private static void CopyFilesRecursively(DirectoryInfo source, DirectoryInfo target)
+        private void CopyFilesRecursively(DirectoryInfo source, DirectoryInfo target)
         {
             foreach (DirectoryInfo dir in source.GetDirectories())
             {

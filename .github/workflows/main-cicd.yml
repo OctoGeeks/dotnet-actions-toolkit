@@ -44,3 +44,5 @@ jobs:
       run: dotnet build src/DotnetActionsToolkit.sln -c Release --no-restore /p:VersionPatch=${{ github.run_number }}
     - name: Pack
       run: dotnet pack src/DotnetActionsToolkit.sln -c Release --no-build /p:VersionPatch=${{ github.run_number }}
+    - name: NuGet Push
+      run: dotnet nuget push src/DotnetActionsToolkit/bin/Release/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json

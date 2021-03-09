@@ -6,8 +6,11 @@ on:
 
 jobs:
   build:
+    strategy:
+      matrix:
+        runner-os: [windows-latest, ubuntu-latest, macos-latest]
 
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.runner-os }}
 
     steps:
     - uses: actions/checkout@v2
@@ -16,10 +19,10 @@ jobs:
       with:
         dotnet-version: 5.0.x
     - name: Restore dependencies
-      run: dotnet restore
+      run: dotnet restore src/DotnetActionsToolkit.sln
     - name: Build
-      run: dotnet build -c Release --no-restore
+      run: dotnet build src/DotnetActionsToolkit.sln -c Release --no-restore
     - name: Test
-      run: dotnet test -c Release --no-build --verbosity normal
+      run: dotnet test src/DotnetActionsToolkit.sln -c Release --no-build --verbosity normal
     - name: Pack
-      run: dotnet pack -c Release --no-build
+      run: dotnet pack src/DotnetActionsToolkit.sln -c Release --no-build

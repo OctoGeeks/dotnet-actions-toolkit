@@ -1,0 +1,46 @@
+name: Main CI CD
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  re-build:
+    strategy:
+      matrix:
+        runner-os: [windows-latest, ubuntu-latest, macos-latest]
+
+    runs-on: ${{ matrix.runner-os }}
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 5.0.x
+    - name: Restore dependencies
+      run: dotnet restore src/DotnetActionsToolkit.sln
+    - name: Build
+      run: dotnet build src/DotnetActionsToolkit.sln -c Release --no-restore
+    - name: Test
+      run: dotnet test src/DotnetActionsToolkit.sln -c Release --no-build --verbosity normal
+    - name: Pack
+      run: dotnet pack src/DotnetActionsToolkit.sln -c Release --no-build
+      
+  publish:
+
+    runs-on: ubuntu-latest
+    needs: re-build
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 5.0.x
+    - name: Restore dependencies
+      run: dotnet restore src/DotnetActionsToolkit.sln
+    - name: Build
+      run: dotnet build src/DotnetActionsToolkit.sln -c Release --no-restore /p:VersionPatch=${{ github.GITHUB_RUN_NUMBER }}
+    - name: Pack
+      run: dotnet pack src/DotnetActionsToolkit.sln -c Release --no-build

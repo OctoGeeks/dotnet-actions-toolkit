@@ -9,9 +9,7 @@ namespace DotnetActionsToolkit.Tests
         public static string GetAssemblyDirectory()
         {
             var location = Assembly.GetExecutingAssembly().Location;
-            var uri = new UriBuilder(location);
-            var path = Uri.UnescapeDataString(uri.Path);
-            return Path.GetDirectoryName(path);
+            return Path.GetDirectoryName(location);
         }
     }
 }

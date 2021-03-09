@@ -33,8 +33,27 @@ namespace DotnetActionsToolkit.Tests
         [ClassCleanup]
         public static void ClassCleanup()
         {
-            Directory.Delete(CACHE_PATH, true);
-            Directory.Delete(TEMP_PATH, true);
+            var retries = 0;
+
+            while (retries < 10)
+            {
+                try
+                {
+                    if (Directory.Exists(CACHE_PATH))
+                    {
+                        Directory.Delete(CACHE_PATH, true);
+                    }
+
+                    if (Directory.Exists(TEMP_PATH))
+                    {
+                        Directory.Delete(TEMP_PATH, true);
+                    }
+                }
+                catch (IOException)
+                {
+                    retries++;
+                }
+            }
         }
 
         [TestMethod]

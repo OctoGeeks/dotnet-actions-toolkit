@@ -30,29 +30,17 @@ namespace DotnetActionsToolkit.Tests
             Directory.CreateDirectory(TEMP_PATH);
         }
 
-        [ClassCleanup]
-        public static void ClassCleanup()
+        [TestCleanup]
+        public void TestCleanup()
         {
-            var retries = 0;
-
-            while (retries < 10)
+            if (Directory.Exists(CACHE_PATH))
             {
-                try
-                {
-                    if (Directory.Exists(CACHE_PATH))
-                    {
-                        Directory.Delete(CACHE_PATH, true);
-                    }
+                Directory.Delete(CACHE_PATH, true);
+            }
 
-                    if (Directory.Exists(TEMP_PATH))
-                    {
-                        Directory.Delete(TEMP_PATH, true);
-                    }
-                }
-                catch (IOException)
-                {
-                    retries++;
-                }
+            if (Directory.Exists(TEMP_PATH))
+            {
+                Directory.Delete(TEMP_PATH, true);
             }
         }
 

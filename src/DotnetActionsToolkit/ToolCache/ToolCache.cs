@@ -189,7 +189,7 @@ namespace DotnetActionsToolkit
         {
             var folderPath = Path.Combine(GetCacheDirectory(), tool, version, arch);
             var markerPath = $"{folderPath}.complete";
-            File.Create(markerPath);
+            File.Create(markerPath).Dispose();
             _core.Debug("finished caching tool");
         }
 

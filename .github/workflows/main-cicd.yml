@@ -41,6 +41,6 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore src/DotnetActionsToolkit.sln
     - name: Build
-      run: dotnet build src/DotnetActionsToolkit.sln -c Release --no-restore /p:VersionPatch=${{ github.GITHUB_RUN_NUMBER }}
+      run: dotnet build src/DotnetActionsToolkit.sln -c Release --no-restore /p:VersionPatch=${{ github.run_number }}
     - name: Pack
       run: dotnet pack src/DotnetActionsToolkit.sln -c Release --no-build

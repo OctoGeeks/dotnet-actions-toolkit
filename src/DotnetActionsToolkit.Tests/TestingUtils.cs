@@ -8,9 +8,9 @@ namespace DotnetActionsToolkit.Tests
     {
         public static string GetAssemblyDirectory()
         {
-            string codeBase = Assembly.GetExecutingAssembly().CodeBase;
-            UriBuilder uri = new UriBuilder(codeBase);
-            string path = Uri.UnescapeDataString(uri.Path);
+            var location = Assembly.GetExecutingAssembly().Location;
+            var uri = new UriBuilder(location);
+            var path = Uri.UnescapeDataString(uri.Path);
             return Path.GetDirectoryName(path);
         }
     }

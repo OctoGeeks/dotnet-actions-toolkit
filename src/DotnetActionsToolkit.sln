@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30717.126
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotnetActionsToolkit", "DotNetActionsToolkit\DotnetActionsToolkit.csproj", "{9B6253C5-CF41-4236-93B4-1E8689DD5075}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotnetActionsToolkit", "DotnetActionsToolkit\DotnetActionsToolkit.csproj", "{9B6253C5-CF41-4236-93B4-1E8689DD5075}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotnetActionsToolkit.Tests", "DotnetActionsToolkit.Tests\DotnetActionsToolkit.Tests.csproj", "{38B85D28-0C9A-469C-B6BD-3723488D48FE}"
 EndProject

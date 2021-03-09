@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DotNetActionsToolkit\DotnetActionsToolkit.csproj" />
+    <ProjectReference Include="..\DotnetActionsToolkit\DotnetActionsToolkit.csproj" />
   </ItemGroup>
 
 </Project>

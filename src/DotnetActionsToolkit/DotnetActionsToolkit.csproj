@@ -1,8 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <VersionMajor Condition="'$(VersionMajor)' == ''">1</VersionMajor>
+    <VersionMinor Condition="'$(VersionMinor)' == ''">0</VersionMinor>
+    <VersionPatch Condition="'$(VersionPatch)' == ''">0</VersionPatch>
+    <Version Condition="'$(Version)' == ''">$(VersionMajor).$(VersionMinor).$(VersionPatch)</Version>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageId>DotnetActionsToolkit</PackageId>
     <Authors>GitHubRangers</Authors>
     <Company>GitHubRangers</Company>

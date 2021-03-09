@@ -6,7 +6,7 @@ TODO: Show samples of .Net based actions, and the tradeoffs for the 3 approaches
 
 Not all of the packages/code in the Actions Toolkit has been or will be ported. Some of the functionality in the original toolkit exists in the .Net Framework. This project focuses on porting the functionality that is specifically related to the GitHub Actions system.
 
-## [core](https://github.com/actions/toolkit/tree/main/packages/core)
+### :heavy_check_mark: [core](https://github.com/actions/toolkit/tree/main/packages/core)
 - exportVariable - PORTED
 - setSecret - PORTED
 - addPath - PORTED
@@ -25,13 +25,13 @@ Not all of the packages/code in the Actions Toolkit has been or will be ported. 
 - saveState - PORTED
 - getState - PORTED
 
-## [exec](https://github.com/actions/toolkit/blob/main/packages/exec) - WILL NOT BE PORTED
+### :runner: [exec](https://github.com/actions/toolkit/blob/main/packages/exec) - WILL NOT BE PORTED
 
-## [glob](https://github.com/actions/toolkit/blob/main/packages/glob) - WILL NOT BE PORTED
+### :ice_cream: [glob](https://github.com/actions/toolkit/blob/main/packages/glob) - WILL NOT BE PORTED
 
-## [io](https://github.com/actions/toolkit/blob/main/packages/io) - WILL NOT BE PORTED
+### :pencil2: [io](https://github.com/actions/toolkit/blob/main/packages/io) - WILL NOT BE PORTED
 
-## [tool-cache](https://github.com/actions/toolkit/tree/main/packages/tool-cache)
+### :hammer: [tool-cache](https://github.com/actions/toolkit/tree/main/packages/tool-cache)
 - downloadTool - WILL NOT BE PORTED
 - downloadToolAttempt - WILL NOT BE PORTED
 - extract7z - WILL NOT BE PORTED
@@ -45,6 +45,8 @@ Not all of the packages/code in the Actions Toolkit has been or will be ported. 
 - getManifestFromRepo - NOT PORTED YET
 - findFromManifest - NOT PORTED YET
 
-## [github](https://github.com/actions/toolkit/blob/main/packages/github) - NOT PORTED YET
+### :octocat: [github](https://github.com/actions/toolkit/blob/main/packages/github) - NOT PORTED YET
 
-## [cache](https://github.com/actions/toolkit/blob/main/packages/cache) - NOT PORTED YET
+### :floppy_disk: [artifact](https://github.com/actions/toolkit/blob/main/packages/artifact) - NOT PORTED YET
+
+### :dart: [cache](https://github.com/actions/toolkit/blob/main/packages/cache) - NOT PORTED YET

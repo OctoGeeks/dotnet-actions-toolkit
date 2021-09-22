@@ -7,13 +7,13 @@
     <Version Condition="'$(Version)' == ''">$(VersionMajor).$(VersionMinor).$(VersionPatch)</Version>
     <TargetFramework>netstandard2.0</TargetFramework>
     <PackageId>DotnetActionsToolkit</PackageId>
-    <Authors>GitHubRangers</Authors>
-    <Company>GitHubRangers</Company>
+    <Authors>Dylan Smith</Authors>
+    <Company>Dylan Smith</Company>
     <PackageTags>GitHub;Actions;</PackageTags>
-    <PackageProjectUrl>https://github.com/GitHubRangers/dotnet-actions-toolkit</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/dylan-smith/dotnet-actions-toolkit</PackageProjectUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RepositoryType>git</RepositoryType>
-    <RepositoryUrl>https://github.com/GitHubRangers/dotnet-actions-toolkit</RepositoryUrl>
+    <RepositoryUrl>https://github.com/dylan-smith/dotnet-actions-toolkit</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>

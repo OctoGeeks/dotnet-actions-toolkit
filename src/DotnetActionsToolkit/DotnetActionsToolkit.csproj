@@ -11,7 +11,7 @@
     <Company>Dylan Smith</Company>
     <PackageTags>GitHub;Actions;</PackageTags>
     <PackageProjectUrl>https://github.com/dylan-smith/dotnet-actions-toolkit</PackageProjectUrl>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageLicenseExpression>Unlicense</PackageLicenseExpression>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/dylan-smith/dotnet-actions-toolkit</RepositoryUrl>
   </PropertyGroup>

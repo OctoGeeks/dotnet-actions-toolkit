@@ -4,7 +4,7 @@ This is a port to .Net of the [GitHub Actions Toolkit](https://github.com/action
 
 To use this in your project get the [latest version from NuGet.org](https://www.nuget.org/packages/DotnetActionsToolkit/)
 
-TODO: Show samples of .Net based actions, and the tradeoffs for the 3 approaches
+TODO: Link to dotnet-action-template repo for guidance on how to build dotnet actions
 
 # Porting Status
 

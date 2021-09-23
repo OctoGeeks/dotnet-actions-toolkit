@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <VersionMajor Condition="'$(VersionMajor)' == ''">1</VersionMajor>
-    <VersionMinor Condition="'$(VersionMinor)' == ''">0</VersionMinor>
+    <VersionMinor Condition="'$(VersionMinor)' == ''">1</VersionMinor>
     <VersionPatch Condition="'$(VersionPatch)' == ''">0</VersionPatch>
     <Version Condition="'$(Version)' == ''">$(VersionMajor).$(VersionMinor).$(VersionPatch)</Version>
     <TargetFramework>netstandard2.0</TargetFramework>

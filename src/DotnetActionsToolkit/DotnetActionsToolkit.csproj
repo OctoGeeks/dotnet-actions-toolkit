@@ -8,12 +8,12 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <PackageId>DotnetActionsToolkit</PackageId>
     <Authors>Dylan Smith</Authors>
-    <Company>Dylan Smith</Company>
+    <Company>OctoGeeks</Company>
     <PackageTags>GitHub;Actions;</PackageTags>
-    <PackageProjectUrl>https://github.com/dylan-smith/dotnet-actions-toolkit</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/OctoGeeks/dotnet-actions-toolkit</PackageProjectUrl>
     <PackageLicenseExpression>Unlicense</PackageLicenseExpression>
     <RepositoryType>git</RepositoryType>
-    <RepositoryUrl>https://github.com/dylan-smith/dotnet-actions-toolkit</RepositoryUrl>
+    <RepositoryUrl>https://github.com/OctoGeeks/dotnet-actions-toolkit</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
